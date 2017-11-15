@@ -1,6 +1,10 @@
 <h3>Example CropperJS with Angular</h3>
+<div>
+  <p>Select a file to change the default image</p>
+  <input (change)="changeImage($event)" #inputFile type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+</div>
 <div [ngStyle]="{'width':'550px', 'height': '350px'}">
-  <img #photo src="/assets/photo.png"  alt="Picture">
+  <img #photo src="/assets/default.png"  alt="Picture">
 </div>
 <button (click)="makeCrop()">Make Crop</button>
 <div>

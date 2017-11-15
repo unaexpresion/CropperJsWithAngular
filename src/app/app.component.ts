@@ -16,16 +16,20 @@ export class AppComponent implements OnInit {
   @ViewChild('result')
   private elResult: ElementRef;
 
+  @ViewChild('inputFile')
+  private elInputFile: ElementRef;
+
   private cropper;
   private result;
   private data;
+  private options;
+  private image;
 
   ngOnInit() {
-    var image = this.elPhoto.nativeElement;
+    this.image = this.elPhoto.nativeElement;
     this.result = this.elResult.nativeElement;
 
-    var croppable = false;
-    this.cropper = new Cropper(image, {
+    this.options = {
       aspectRatio: 1 / 1,
       viewMode: 1,
       autoCrop: false,
@@ -39,7 +43,10 @@ export class AppComponent implements OnInit {
             height: 150
         });
       }
-    });
+    };
+
+    var croppable = false;
+    this.cropper = new Cropper(this.image, this.options);
   }
 
   makeCrop() {
@@ -49,6 +56,32 @@ export class AppComponent implements OnInit {
     });
     this.data = img.toDataURL();
     this.result.src = this.data;
+  }
+
+  changeImage(event) {
+    var files = event.srcElement.files;
+    var file;
+
+    var uploadedImageType = 'image/jpeg';
+    var uploadedImageURL;
+    var URL = window.URL || (window as any).webkitURL;
+
+    if (files && files.length) {
+      file = files[0];
+
+      if (/^image\/\w+/.test(file.type)) {
+        uploadedImageType = file.type;
+        if (uploadedImageURL) {
+          URL.revokeObjectURL(uploadedImageURL);
+        }
+        this.image.src = uploadedImageURL = URL.createObjectURL(file);
+        this.cropper.destroy();
+        this.cropper = new Cropper(this.image, this.options);
+      } else {
+        window.alert('Please choose an image file.');
+        this.elInputFile.nativeElement.value = '';
+      }
+    }
   }
 
 }
