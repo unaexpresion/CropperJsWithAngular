@@ -2,6 +2,8 @@
   "name": "angular-cropperjs",
   "version": "0.0.0",
   "license": "MIT",
+  "author": "Carlos Medina https://www.instagram.com/carlosmedina.developer/",
+  "keywords": "CropperJs, Javascript, Angular, CLI",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
